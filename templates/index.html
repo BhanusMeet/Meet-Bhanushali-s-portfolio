@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}Meet Bhanushali | Hacked Interface{% endblock %}
+{% block content %}
+<div id="entry-screen">
+  <div id="terminal">
+    <p class="line">Initializing system...</p>
+    <p class="line">Bypassing firewall...</p>
+    <p class="line">Access Granted</p>
+  </div>
+  <button id="enter-btn">ENTER SYSTEM</button>
+  <div id="glitch-layer"></div>
+  <div id="crack-layer"></div>
+</div>
+
+<div id="main-interface" class="hidden">
+  <canvas id="particles"></canvas>
+
+  <aside id="control-panel" class="glass">
+    <h3>CONTROL SYSTEM</h3>
+    <button data-action="projects">1 · Projects</button>
+    <button data-action="cert-summary">2 · Cert Summary</button>
+    <button data-action="cert-page">3 · Full Cert Page</button>
+    <button data-action="thm-badges">4 · TryHackMe Badges</button>
+    <button data-action="thm-profile">5 · TryHackMe Profile</button>
+    <button data-action="whatsapp">6 · WhatsApp</button>
+    <button data-action="linkedin">7 · LinkedIn</button>
+    <button data-action="fiverr">8 · Fiverr</button>
+    <button data-action="instagram">9 · Instagram</button>
+    <button data-action="reset">0 · Reset</button>
+  </aside>
+
+  <section class="hero section" id="hero">
+    <h1>Meet Bhanushali</h1>
+    <p>Cybersecurity Enthusiast | BSc IT Student</p>
+  </section>
+
+  <section class="section" id="about">
+    <div class="about-grid">
+      <img src="https://meetbhanushaliportfolio.netlify.app/asset/meet.jpg" alt="Meet Bhanushali profile">
+      <div>
+        <h2>About Me</h2>
+        <p>I work on real digital brands, not just sample projects. I handle Shopify and Amazon stores, support Google and Meta ad campaigns, and work with automation tools that make businesses run smoother.</p>
+        <p>I believe in learning by doing: understanding how systems work, applying them on live projects, and improving with every mistake.</p>
+        <p>Most people see me as a Computer Science student, but I am a Business-Tech Operator at heart. I don't just write code; I build systems that generate revenue.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <h2>Technical Arsenal</h2>
+    <div class="skill-grid">
+      {% for skill, level in [
+        ('HTML5 & CSS3',85), ('Python',70), ('Shopify Development',90), ('WhatsApp Automation',88),
+        ('Amazon Seller Central',82), ('Google Ads',80), ('Meta Ads Manager',78), ('Web Analytics',75),
+        ('SEO',74), ('AI Tools & Workflow',83), ('CyberSecurity (Basic)',72)
+      ] %}
+      <div class="skill-card glass">
+        <h4>{{ skill }}</h4>
+        <div class="bar"><span style="width:{{ level }}%"></span></div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <h2>Mission Archive</h2>
+    {% for project in projects %}
+    <article class="mission glass">
+      <h3>MISSION: {{ project.name }}</h3>
+      <p><strong>STATUS:</strong> {{ project.status }}</p>
+      <p><strong>DESCRIPTION:</strong> {{ project.description }}</p>
+      <p><strong>IMPACT:</strong> {{ project.impact }}</p>
+      <a target="_blank" rel="noreferrer" href="{{ project.link }}">Inspect Mission Asset →</a>
+    </article>
+    {% endfor %}
+  </section>
+
+  <section class="section" id="cert-summary">
+    <h2>Certification Summary</h2>
+    <div class="cards">
+      {% for cert in certifications %}
+      <div class="glass cert-card">
+        <h4>{{ cert.title }}</h4>
+        <p>Issued by {{ cert.issuer }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section" id="thm-badges">
+    <h2>TryHackMe Badges</h2>
+    <p>Badge feed placeholder activated. Connect your public profile badges to display live challenge progress.</p>
+    <div class="badge-row">
+      <span class="glass">Pre-Security</span><span class="glass">Jr Penetration Tester</span><span class="glass">Web Fundamentals</span>
+    </div>
+  </section>
+
+  <section class="section" id="feedback">
+    <h2>Client Feedback Matrix</h2>
+    <p>Average Rating: {{ avg_rating or 'N/A' }}/5</p>
+    {% if session.get('role') == 'client' %}
+    <div class="forms-grid">
+      <form method="post" action="{{ url_for('rate') }}" class="glass form-card">
+        <h4>Submit Rating</h4>
+        <label>Stars (1-5)</label>
+        <input type="number" min="1" max="5" name="stars" required>
+        <label>Comment (optional)</label>
+        <textarea name="comment"></textarea>
+        <button type="submit">Transmit Rating</button>
+      </form>
+      <form method="post" action="{{ url_for('recommend') }}" class="glass form-card">
+        <h4>Submit Recommendation</h4>
+        <textarea name="content" required minlength="8" placeholder="Write your recommendation..."></textarea>
+        <button type="submit">Send For Approval</button>
+      </form>
+    </div>
+    {% else %}
+    <p>Login as client to submit ratings and recommendations.</p>
+    {% endif %}
+
+    <h3>Approved Recommendations</h3>
+    {% for rec in recommendations %}
+    <div class="glass feed-item"><strong>{{ rec.username }}</strong>: {{ rec.content }}</div>
+    {% else %}<p>No approved recommendations yet.</p>{% endfor %}
+
+    <h3>Latest Ratings</h3>
+    {% for rating in ratings %}
+      <div class="glass feed-item"><strong>{{ rating.username }}</strong> · {{ rating.stars }}/5 — {{ rating.comment or 'No comment' }}</div>
+    {% else %}<p>No ratings yet.</p>{% endfor %}
+  </section>
+</div>
+
+<div id="overlay-panel" class="glass hidden"></div>
+
+<script>
+  window.CONTROL_LINKS = {{ socials|tojson }};
+</script>
+{% endblock %}

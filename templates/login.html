@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="auth-shell">
+  <form method="post" class="glass auth-card">
+    <h2>Login</h2>
+    <label>Username</label>
+    <input name="username" required>
+    <label>Password</label>
+    <input name="password" type="password" required>
+    <button type="submit">Access</button>
+    <p>Admin seeded: <code>meet_admin</code> / <code>meet@secure</code></p>
+  </form>
+</section>
+{% endblock %}
