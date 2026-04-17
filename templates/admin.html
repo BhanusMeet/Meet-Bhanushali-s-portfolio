@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+  <h1>Admin Control Room</h1>
+  <h2>Ratings</h2>
+  {% for r in ratings %}
+  <div class="glass admin-item">
+    <p><strong>{{ r.username }}</strong> · {{ r.stars }}/5 · {{ r.comment or 'No comment' }}</p>
+    <form method="post" action="{{ url_for('delete_rating', rating_id=r.id) }}"><button>Delete</button></form>
+  </div>
+  {% else %}<p>No ratings.</p>{% endfor %}
+
+  <h2>Recommendations</h2>
+  {% for rec in recommendations %}
+  <div class="glass admin-item">
+    <p><strong>{{ rec.username }}</strong> [{{ rec.status }}] — {{ rec.content }}</p>
+    <div class="row">
+      <form method="post" action="{{ url_for('moderate_recommendation', rec_id=rec.id, action='approve') }}"><button>Approve</button></form>
+      <form method="post" action="{{ url_for('moderate_recommendation', rec_id=rec.id, action='reject') }}"><button>Reject</button></form>
+      <form method="post" action="{{ url_for('moderate_recommendation', rec_id=rec.id, action='delete') }}"><button>Delete</button></form>
+    </div>
+  </div>
+  {% else %}<p>No recommendations.</p>{% endfor %}
+</section>
+{% endblock %}

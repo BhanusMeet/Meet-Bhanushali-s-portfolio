@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+  <h1>Certification Center</h1>
+  {% for cert in certifications %}
+  <div class="glass cert-card">
+    <h3>{{ cert.title }}</h3>
+    <p>Issued by: {{ cert.issuer }}</p>
+    <a href="{{ cert.doc }}" target="_blank" rel="noreferrer">View Document Hub</a>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}
